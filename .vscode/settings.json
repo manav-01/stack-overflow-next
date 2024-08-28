@@ -1,4 +1,11 @@
 {
-  "cSpell.words": ["camelcase", "nextjs", "tailwindcss"],
+  "cSpell.words": [
+    "camelcase",
+    "darkgradient",
+    "Grotesk",
+    "nextjs",
+    "tailwindcss",
+    "UPVOTES"
+  ],
   "cSpell.enableFiletypes": ["tailwindcss"]
 }
