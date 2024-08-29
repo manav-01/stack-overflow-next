@@ -3,9 +3,11 @@
     "camelcase",
     "darkgradient",
     "Grotesk",
+    "hookform",
     "nextjs",
     "Searchbar",
     "tailwindcss",
+    "tinymce",
     "UPVOTES"
   ],
   "cSpell.enableFiletypes": ["tailwindcss"]
