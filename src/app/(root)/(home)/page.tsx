@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import Filter from "@/components/shared/Filter";
 import { HomePageFilters } from "@/constants/filters";
+import HomeFilters from "@/components/home/HomeFilters";
 
 function Home() {
   return (
@@ -32,6 +33,7 @@ function Home() {
           containerClasses="hidden max-md:flex"
         />
       </div>
+      <HomeFilters />
     </>
   );
 }
