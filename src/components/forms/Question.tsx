@@ -19,12 +19,12 @@ import { Button } from "../ui/button";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
 const Question = () => {
   const { mode } = useTheme();
-  console.log(mode);
   const editorRef = useRef(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,6 +46,7 @@ const Question = () => {
     try {
       // make an async call to your API -> create a question
       // contain all form data
+      await createQuestion();
     } catch (error) {
     } finally {
       setIsSubmitting(false);
