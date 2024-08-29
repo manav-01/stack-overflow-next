@@ -5,6 +5,8 @@ import React from "react";
 import Filter from "@/components/shared/Filter";
 import { HomePageFilters } from "@/constants/filters";
 import HomeFilters from "@/components/home/HomeFilters";
+import NoResult from "@/components/shared/NoResult";
+import QuestionCard from "@/components/cards/QuestionCard";
 
 const questions = [
   {
@@ -43,6 +45,14 @@ const questions = [
   },
 ];
 
+const noResult = {
+  title: "There's no question to show",
+  description:
+    "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡",
+  link: "/ask-question",
+  linkTitle: "Ask a Question",
+};
+
 function Home() {
   return (
     <>
@@ -74,9 +84,26 @@ function Home() {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question) => <div key={question._id}>Question</div>)
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
         ) : (
-          <div>NoResult</div>
+          <NoResult
+            title={noResult.title}
+            description={noResult.description}
+            link={noResult.link}
+            linkTitle={noResult.linkTitle}
+          />
         )}
       </div>
     </>
