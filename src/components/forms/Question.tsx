@@ -63,7 +63,6 @@ const Question = ({ mongoUserId }: Props) => {
       // navigate to home page
       router.push("/");
     } catch (error) {
-      
     } finally {
       setIsSubmitting(false);
     }
@@ -173,6 +172,7 @@ const Question = ({ mongoUserId }: Props) => {
                       "insertdatetime",
                       "media",
                       "table",
+                      "markdown",
                     ],
                     toolbar:
                       "undo redo | " +
