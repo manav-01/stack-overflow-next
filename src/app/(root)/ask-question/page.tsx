@@ -8,6 +8,8 @@ async function page() {
   const { userId }: { userId: string | null } = auth();
 
   // const userId = "123456789";
+
+  console.log(userId);
   if (!userId) {
     redirect("/sign-in");
   }
