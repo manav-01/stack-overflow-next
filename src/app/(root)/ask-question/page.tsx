@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
-async function page() {
+async function Page() {
   const { userId }: { userId: string | null } = auth();
 
   // const userId = "123456789";
@@ -25,4 +25,4 @@ async function page() {
   );
 }
 
-export default page;
+export default Page;
