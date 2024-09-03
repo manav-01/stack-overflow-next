@@ -4,7 +4,7 @@ import RenderTag from "../shared/RenderTag";
 import Metric from "../shared/Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
-interface QuestionProps {
+export interface QuestionProps {
   _id: string;
   title: string;
   tags: {
