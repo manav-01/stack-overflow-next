@@ -15,8 +15,17 @@ import { useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { createAnswer } from "@/lib/actions/answer.action";
 
-function Answer() {
+interface Props {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
+function Answer({ question, questionId, authorId }: Props) {
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { mode } = useTheme();
   const editorRef = useRef(null);
@@ -27,10 +36,24 @@ function Answer() {
     },
   });
 
-  const handleCreateAnswer = () => {
+  const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
+      await createAnswer({
+        content: values.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathname,
+      });
+
+      form.reset();
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent("");
+      }
     } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -48,7 +71,7 @@ function Answer() {
           onClick={() => {}}
         >
           <Image
-            src={"/asserts/icons/stars.svg"}
+            src={"/assets/icons/stars.svg"}
             alt="star"
             width={12}
             height={12}
@@ -114,7 +137,7 @@ function Answer() {
           />
           <div className="flex justify-end">
             <Button
-              type="button"
+              type="submit"
               className="primary-gradient w-fit text-white"
               disabled={isSubmitting}
             >

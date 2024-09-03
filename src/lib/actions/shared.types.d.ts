@@ -8,7 +8,7 @@ export interface CreateAnswerParams {
     path: string;
 }
 
-export interface getAnswerParams {
+export interface GetAnswersParams {
     questionId: string;
     sortBy?: string;
     page?: number;
