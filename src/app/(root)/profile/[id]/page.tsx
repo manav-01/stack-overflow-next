@@ -89,7 +89,7 @@ async function Page({ params, searchParams }: URLProps) {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="top-posts">QuestionTab</TabsContent>
-          <TabsContent value="answer" className="flex w-full flex-col gap-6">
+          <TabsContent value="answers" className="flex w-full flex-col gap-6">
             Answer Tabs
           </TabsContent>
         </Tabs>
