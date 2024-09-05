@@ -26,7 +26,7 @@ export interface Country {
     };
 }
 
-export interface paramsProps {
+export interface ParamsProps {
     params: { id: string };
 }
 
