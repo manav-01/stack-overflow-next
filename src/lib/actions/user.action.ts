@@ -8,13 +8,13 @@ import Question, { IQuestion } from "@/database/question.model";
 import { FilterQuery } from "mongoose";
 import Tag from "@/database/tag.model";
 import Answer from "@/database/answer.model";
-import { error } from "console";
+
 
 
 
 export async function getUserById(params: any) {
     try {
-        connectToDatabase();
+        await connectToDatabase();
 
         const { userId } = params;
 
