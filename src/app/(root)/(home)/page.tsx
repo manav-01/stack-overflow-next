@@ -56,7 +56,7 @@ async function Home() {
               title={question.title}
               tags={question.tags}
               author={question.author}
-              upvotes={question.upvotes.length}
+              upvotes={question.upvotes}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}

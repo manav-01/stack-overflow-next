@@ -1,4 +1,4 @@
-import UserCard from "@/components/shared/cards/UserCard";
+import UserCard from "@/components/cards/UserCard";
 import Filter from "@/components/shared/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchbar";
 import { UserFilters } from "@/constants/filters";

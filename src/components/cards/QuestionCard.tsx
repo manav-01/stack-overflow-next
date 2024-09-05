@@ -1,10 +1,10 @@
-import React from "react";
+import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import Link from "next/link";
+import React from "react";
 import RenderTag from "../shared/RenderTag";
 import Metric from "../shared/Metric";
-import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
-export interface QuestionProps {
+interface QuestionProps {
   _id: string;
   title: string;
   tags: {
@@ -16,13 +16,15 @@ export interface QuestionProps {
     name: string;
     picture: string;
   };
-  upvotes: number;
+  upvotes: string[];
   views: number;
   answers: Array<object>;
   createdAt: Date;
+  clerkId?: string | null;
 }
 
 function QuestionCard({
+  clerkId,
   _id,
   title,
   tags,
@@ -33,7 +35,7 @@ function QuestionCard({
   createdAt,
 }: QuestionProps) {
   return (
-    <div className="card-wrapper rounded-[10px] p-9 sm:p-11">
+    <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
         <div>
           <span className="subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden">
@@ -45,8 +47,10 @@ function QuestionCard({
             </h3>
           </Link>
         </div>
-        {/* If signed in add edit delete actions */}
+
+        {/* If signed in add edit deleted actions */}
       </div>
+
       <div className="mt-3.5 flex flex-wrap gap-2">
         {tags.map((tag) => (
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
@@ -67,7 +71,7 @@ function QuestionCard({
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="Up votes"
-            value={formatAndDivideNumber(upvotes)}
+            value={formatAndDivideNumber(upvotes.length)}
             title="Votes"
             textStyles="small-medium text-dark400_light800"
           />
