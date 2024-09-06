@@ -6,6 +6,7 @@ import { GetAllTagsParams, GetQuestionByTagIdParams, GetTopInteractedTagsParams 
 import Tag, { ITag } from "@/database/tag.model";
 import { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
+import { isNumberObject } from "util/types";
 
 
 
@@ -84,6 +85,34 @@ export async function getQuestionByTagId(params: GetQuestionByTagIdParams) {
         const questions = tag.questions;
         return { tagTitle: tag.name, questions }
 
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export async function getTopPopularTags() {
+    try {
+        connectToDatabase();
+
+        const popularTags = await Tag.aggregate(
+            [
+                {
+                    $project: {
+                        name: 1, numberOfQuestions: { $size: "$questions" }
+                    }
+                },
+                {
+                    $sort: { numberOfQuestions: -1 }
+                },
+                {
+                    $limit: 5
+                }
+            ]
+        );
+
+        return popularTags;
 
     } catch (error) {
         console.log(error);
