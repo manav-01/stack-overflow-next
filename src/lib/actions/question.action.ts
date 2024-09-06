@@ -1,6 +1,6 @@
 "use server"
 
-import Question from "@/database/question.model";
+import Question, { IQuestion } from "@/database/question.model";
 import { connectToDatabase } from "../mongoose"
 import { CreateQuestionParams, DeleteQuestionParams, EditQuestionParams, GetQuestionByIdParams, GetQuestionsParams, QuestionVoteParams } from "./shared.types";
 import Tag from "@/database/tag.model";
@@ -23,7 +23,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 
         const { searchQuery } = params;
 
-        const query: FilterQuery<typeof Question> = {}
+        const query: FilterQuery<IQuestion> = {}
 
         if (searchQuery) {
             query.$or = [
