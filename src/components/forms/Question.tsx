@@ -33,21 +33,21 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
   const editorRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
-  
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // For Edit Logic
-  const parsedQuestionDetails = JSON.parse(questionDetails || "");
+  const parsedQuestionDetails =
+    questionDetails && JSON.parse(questionDetails || "");
 
-  const groupedTags = parsedQuestionDetails.tags.map((tag: any) => tag.name);
+  const groupedTags = parsedQuestionDetails?.tags.map((tag: any) => tag.name);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
     defaultValues: {
-      title: parsedQuestionDetails.title || "",
-      explanation: parsedQuestionDetails.content || "",
+      title: parsedQuestionDetails?.title || "",
+      explanation: parsedQuestionDetails?.content || "",
       tags: groupedTags || [],
     },
   });
@@ -59,13 +59,13 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
     try {
       if (type === "Edit") {
         await editQuestion({
-          questionId: parsedQuestionDetails._id,
+          questionId: parsedQuestionDetails?._id,
           title: values.title,
           content: values.explanation,
           path: pathname,
         });
 
-        router.push(`/question/${parsedQuestionDetails._id}`);
+        router.push(`/question/${parsedQuestionDetails?._id}`);
       } else {
         // make an async call to your API -> create a question
         // contain all form data
@@ -169,7 +169,7 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue={parsedQuestionDetails.content || ""}
+                  initialValue={parsedQuestionDetails?.content || ""}
                   init={{
                     skin: mode === "dark" ? "oxide-dark" : "oxide",
                     content_css: mode === "dark" ? "dark" : "default",

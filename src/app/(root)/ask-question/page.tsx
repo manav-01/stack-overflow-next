@@ -9,6 +9,8 @@ async function Page() {
 
   // const userId = "123456789";
 
+  console.log("userId", userId);
+
   if (!userId) {
     redirect("/sign-in");
   }

@@ -8,6 +8,7 @@ import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
 import { getQuestions } from "@/lib/actions/question.action";
+import { SearchParamsProps } from "@/types";
 
 const noResult = {
   title: "There's no question to show",
@@ -17,8 +18,8 @@ const noResult = {
   linkTitle: "Ask a Question",
 };
 
-async function Home() {
-  const result = await getQuestions({});
+async function Home({ searchParams }: SearchParamsProps) {
+  const result = await getQuestions({ searchQuery: searchParams.q });
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
