@@ -8,6 +8,7 @@ import Question, { IQuestion } from "@/database/question.model";
 import { FilterQuery } from "mongoose";
 import Tag from "@/database/tag.model";
 import Answer from "@/database/answer.model";
+import { pages } from "next/dist/build/templates/app-page";
 
 
 
@@ -91,7 +92,9 @@ export async function deleteUser(params: DeleteUserParams) {
 
 
 export async function getAllUsers(params: GetAllUserParams) {
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<IUser> = {};
 
@@ -122,9 +125,16 @@ export async function getAllUsers(params: GetAllUserParams) {
                 break;
         }
 
-        const users = await User.find(query).sort(sortOptions)
+        const users = await User
+            .find(query)
+            .sort(sortOptions)
+            .skip(skipAmount)
+            .limit(pageSize)
 
-        return { users }
+
+        const totalUsers = await User.countDocuments(query);
+        const isNext = totalUsers > skipAmount + users.length;
+        return { users, isNext, totalUsers }
     } catch (error) {
         console.log(error);
         throw error;
