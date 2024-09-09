@@ -8,7 +8,7 @@ import Question, { IQuestion } from "@/database/question.model";
 import { FilterQuery } from "mongoose";
 import Tag from "@/database/tag.model";
 import Answer from "@/database/answer.model";
-import { pages } from "next/dist/build/templates/app-page";
+
 
 
 
@@ -183,7 +183,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     try {
         connectToDatabase();
 
-        const { clerkId, searchQuery, filter } = params;
+        const { clerkId, searchQuery, filter, page = 1, pageSize = 1 } = params;
+
+        const skipAmount = (page - 1) * pageSize;
 
         const query: FilterQuery<IQuestion> = searchQuery ? {
             $or:
@@ -220,19 +222,46 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 
         const user = await User.findOne({ clerkId })
             .populate({
-                path: 'saved', match: query, options: { sort: sortOptions },
+                path: 'saved', match: query,
+                options: {
+                    sort: sortOptions,
+                    skip: skipAmount,
+                    limit: pageSize + 1
+                },
                 populate: [
                     { path: 'tags', model: Tag, select: " _id name" },
                     { path: 'author', model: User, select: " _id clerkId name picture" }
                 ]
             });
 
+        // Count the total saved questions based on the query
+        const totalSavedQuestions = await User.aggregate([
+            { $match: { _id: user._id } },
+            { $unwind: "$saved" },
+            {
+                $lookup: {
+                    from: "questions",
+                    localField: "saved",
+                    foreignField: "_id",
+                    as: "savedQuestions",
+                },
+            },
+            { $unwind: "$savedQuestions" },
+            { $match: query }, // Apply the search query
+            { $count: "totalSavedQuestions" },
+        ]);
+
+
+
+
         if (!user) {
             throw new Error('User not found');
         }
         const savedQuestions = user.saved;
 
-        return { questions: savedQuestions };
+        const isNext = user.saved.length > pageSize;
+
+        return { questions: savedQuestions, isNext, totalSavedQuestions: totalSavedQuestions[0]?.totalSavedQuestions || 0, };
 
     } catch (error) {
         console.log(error);
