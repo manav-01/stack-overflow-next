@@ -124,7 +124,7 @@ export interface GetUserByIdParams {
 export interface GetAllUserParams {
     page?: number;
     pageSize?: number;
-    filer?: string;
+    filter?: string;
     searchQuery?: string; // Add search query parameter;
 }
 
