@@ -49,13 +49,12 @@ const GlobalSearch = () => {
 
         router.push(newUrl, { scroll: false });
       } else {
-        if (query) {
-          const newUrl = removeKeysFromQuery({
-            params: searchParams.toString(),
-            keysToRemove: ["global", "type"],
-          });
-          router.push(newUrl, { scroll: false });
-        }
+        const newUrl = removeKeysFromQuery({
+          params: searchParams.toString(),
+          keysToRemove: ["global", "type"],
+        });
+        console.log({ searchParams, newUrl });
+        router.push(newUrl, { scroll: false });
       }
     }, 300);
 
@@ -63,7 +62,10 @@ const GlobalSearch = () => {
   }, [search, router, pathname, searchParams, query]);
 
   return (
-    <div className="relative w-full max-w-[600px] max-lg:hidden">
+    <div
+      className="relative w-full max-w-[600px] max-lg:hidden"
+      ref={searchContainerRef}
+    >
       <div className="background-light800_darkgradient relative flex min-h-[56px] grow items-center gap-1 rounded-xl px-4">
         <Image
           src="/assets/icons/search.svg"
@@ -73,7 +75,6 @@ const GlobalSearch = () => {
           className="cursor-pointer"
         />
         <Input
-          readOnly
           type="text"
           placeholder="Search globally..."
           value={search}

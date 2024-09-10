@@ -39,12 +39,12 @@ const GlobalFilters = () => {
   return (
     <div className="flex items-center gap-5 px-5">
       <p className="text-dark400_light900 body-medium ">Type: </p>
-      <div>
+      <div className="flex gap-3">
         {GlobalSearchFilters.map((item) => (
           <button
             key={item.value}
             type="button"
-            className={`light-border-2 small-medium :text-light-800 rounded-2xl px-5 py-2 capitalize dark:hover:text-primary-500
+            className={`light-border-2 small-medium rounded-2xl px-5 py-2 capitalize text-light-800 dark:hover:text-primary-500
               ${
                 active === item.value
                   ? "bg-primary-500 text-light-900"
