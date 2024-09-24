@@ -11,6 +11,13 @@ import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
 
+import type { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+  title: "Home | Dev Overflow",
+};
+
 const noResult = {
   title: "There's no question to show",
   description:
