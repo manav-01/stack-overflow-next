@@ -35,9 +35,8 @@ function ParseHTML({ data }: Props) {
     Prism.highlightAll();
   });
   return (
-    <div className="max-w-full overflow-hidden text-ellipsis whitespace-normal text-wrap break-words">
-      {parse(data)}
-    </div>
+    // <div className="max-w-full overflow-hidden text-ellipsis whitespace-normal text-wrap break-words">
+    <div className={"markdown w-full min-w-full"}>{parse(data)}</div>
   );
 }
 
