@@ -6,6 +6,7 @@ import { GetAllTagsParams, GetQuestionByTagIdParams, GetTopInteractedTagsParams 
 import Tag, { ITag } from "@/database/tag.model";
 import { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
+import Interaction from "@/database/interaction.model";
 
 
 
@@ -18,15 +19,67 @@ export async function GetTopInteractedTags(params: GetTopInteractedTagsParams) {
         const { userId } = params;
 
 
+
         const user = await User.findById(userId);
+
         if (!user) {
             throw new Error("User not found");
         }
 
         // Find interactions for the user and group by tags...
-        // Interaction...
+        // Find tags from the user's questions
+        const questionTags = await Question.aggregate([
+            { $match: { author: userId } },      // Match questions by the user
+            { $unwind: "$tags" },                // Unwind the tags array
+            {
+                $group: {                          // Group by tag and count occurrences
+                    _id: "$tags",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
 
-        return [{ _id: '1', name: 'Java' }, { _id: '2', name: 'React' }];
+
+
+        // Find tags from the user's interactions (e.g., answers)
+        const interactionTags = await Interaction.aggregate([
+            { $match: { user: userId } },        // Match interactions by the user
+            { $unwind: "$tags" },                // Unwind the tags array
+            {
+                $group: {                          // Group by tag and count occurrences
+                    _id: "$tags",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        console.log("questionTags", questionTags);
+        console.log("interactionTags", interactionTags);
+
+        // Combine the question tags and interaction tags
+        const combinedTags = [...questionTags, ...interactionTags];
+
+        // Group by tags and sum the counts (combine counts from both questions and interactions)
+        const groupedTags = combinedTags.reduce((acc, tag) => {
+            if (!acc[tag._id]) {
+                acc[tag._id] = { _id: tag._id, count: tag.count };
+            } else {
+                acc[tag._id].count += tag.count;
+            }
+            return acc;
+        }, {});
+
+        // Convert to an array and sort by count
+        const sortedTags = Object.values(groupedTags).sort((a: any, b: any) => b.count - a.count);
+
+        // Limit to top 2 tags
+        const topTagIds = sortedTags.slice(0, 2).map((tag: any) => tag._id);
+
+        // Fetch the tag names based on the tag IDs
+        const topTags = await Tag.find({ _id: { $in: topTagIds } });
+
+        return topTags.map(tag => ({ _id: tag._id, name: tag.name }));
+        // return [{ _id: '1', name: 'Java' }, { _id: '2', name: 'React' }];
     } catch (error) {
         console.log(error)
         throw error;

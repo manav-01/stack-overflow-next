@@ -134,6 +134,7 @@ export async function getAllUsers(params: GetAllUserParams) {
             .limit(pageSize)
 
 
+
         const totalUsers = await User.countDocuments(query);
         const isNext = totalUsers > skipAmount + users.length;
         return { users, isNext, totalUsers }

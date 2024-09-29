@@ -15,7 +15,7 @@ export const connectToDatabase = async () => {
     }
 
     if (connection.isConnected) {
-        console.log("Already connected to DB");
+        // console.log("Already connected to DB");
         return;
     }
 
@@ -24,7 +24,7 @@ export const connectToDatabase = async () => {
             dbName: process.env.DB_NAME
         });
         connection.isConnected = db.connections[0].readyState;
-        console.log("DB connect successfully");
+        // console.log("DB connect successfully");
     } catch (error) {
         console.log("DB connection failed", error)
         process.exit(1);

@@ -175,7 +175,7 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
             { $inc: { reputation: hasupVoted ? -1 : 1 } }
         )
 
-        // Increment Question's author's reputation by +10/-10 for recieving an upvote/downvote to the question
+        // Increment Question's author's reputation by +10/-10 for receiving an upvote/downvote to the question
 
         await User.findByIdAndUpdate(
             question.author,
