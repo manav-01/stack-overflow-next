@@ -8,7 +8,7 @@ export interface CreateAnswerParams {
     path: string;
 }
 
-export interface getAnswerParams {
+export interface GetAnswersParams {
     questionId: string;
     sortBy?: string;
     page?: number;
@@ -29,7 +29,7 @@ export interface DeleteAnswerParams {
 }
 
 export interface SearchParams {
-    query: string;
+    query?: string | null;
     type?: string | null;
 }
 
@@ -86,7 +86,7 @@ export interface EditQuestionParams {
     questionId: string;
     title: string;
     content: string;
-    tags: string[];
+    tags?: string[];
     path: string;
 }
 
@@ -124,7 +124,7 @@ export interface GetUserByIdParams {
 export interface GetAllUserParams {
     page?: number;
     pageSize?: number;
-    filer?: string;
+    filter?: string;
     searchQuery?: string; // Add search query parameter;
 }
 

@@ -8,13 +8,14 @@ export interface SidebarLink {
 
 export interface Job {
     id?: string;
+    job_id?: string;
     employer_name?: string;
     employer_logo?: string | undefined;
     employer_website?: string;
-    job_employer_type?: string;
+    job_employment_type?: string;
     job_title?: string;
     job_description?: string;
-    job_apply_lik?: string;
+    job_apply_link?: string;
     job_city?: string;
     job_state?: string;
     job_country?: string;
@@ -26,7 +27,7 @@ export interface Country {
     };
 }
 
-export interface paramsProps {
+export interface ParamsProps {
     params: { id: string };
 }
 

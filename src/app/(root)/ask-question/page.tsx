@@ -4,16 +4,18 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
-async function page() {
+async function Page() {
   const { userId }: { userId: string | null } = auth();
 
   // const userId = "123456789";
+
+  console.log("userId", userId);
+
   if (!userId) {
     redirect("/sign-in");
   }
 
   const mongoUser = await getUserById({ userId });
-  console.log("mongoUser", mongoUser);
 
   return (
     <div>
@@ -25,4 +27,4 @@ async function page() {
   );
 }
 
-export default page;
+export default Page;
