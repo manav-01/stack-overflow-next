@@ -171,8 +171,6 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                   onEditorChange={(content) => field.onChange(content)}
                   initialValue={parsedQuestionDetails?.content || ""}
                   init={{
-                    skin: mode === "dark" ? "oxide-dark" : "oxide",
-                    content_css: mode === "dark" ? "dark" : "default",
                     height: 350,
                     menubar: false,
                     plugins: [
@@ -191,7 +189,6 @@ const Question = ({ mongoUserId, type, questionDetails }: Props) => {
                       "insertdatetime",
                       "media",
                       "table",
-                      "markdown",
                     ],
                     toolbar:
                       "undo redo | " +
